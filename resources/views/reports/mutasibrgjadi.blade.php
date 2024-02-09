@@ -171,6 +171,7 @@
             <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
             @endif --}}
             <td class="border-2">--</td>
+            <td class="border-2">--</td>
             <td class="border-2">Sesuai</td>
             {{-- @endif --}}
           </tr>
