@@ -19,13 +19,13 @@ class MutasiWinProcessController extends Controller
                 $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
                 $compcode = session()->get('comp_code');
 
-                $results = DB::select('CALL rptmutasiwip (?,?,?)', [$datefrForm, $datetoForm, $compcode]);
+                $results = DB::select('EXEC LapPosisiBrgProsesWIPOCIONLINE ?,?', [$datefrForm, $datetoForm]);
 
                 // $query = DB::select('EXEC rptTest ?,?,?',[$datefrForm,$datetoForm,'BC 4.0']);
 
                 $page = request('page', 1);
                 $pageSize = 25;
-                $query = DB::select('CALL rptmutasiwip (?,?,?)', [$datefrForm, $datetoForm, $compcode]);
+                $query = DB::select('EXEC LapPosisiBrgProsesWIPOCIONLINE ?,?', [$datefrForm, $datetoForm]);
                 $offset = ($page * $pageSize) - $pageSize;
                 $data = array_slice($query, $offset, $pageSize, true);
                 // $results = new \Illuminate\Pagination\LengthAwarePaginator($data, count($data), $pageSize, $page);
@@ -62,7 +62,7 @@ class MutasiWinProcessController extends Controller
         $comp_code = session()->get('comp_code');
         $comp_name = session()->get('comp_name');
 
-        $results = DB::select('CALL rptmutasiwip (?,?,?)', [$datefrForm, $datetoForm, $comp_code]);
+        $results = DB::select('EXEC LapPosisiBrgProsesWIPOCIONLINE ?,?', [$datefrForm, $datetoForm]);
 
         // dd($results);
 
@@ -78,7 +78,7 @@ class MutasiWinProcessController extends Controller
         $compcode = session()->get('comp_code');
         $comp_name = session()->get('comp_name');
 
-        $results = DB::select('CALL rptmutasiwip (?,?,?)', [$datefrForm, $datetoForm, $compcode]);
+        $results = DB::select('EXEC LapPosisiBrgProsesWIPOCIONLINE ?,?,', [$datefrForm, $datetoForm]);
 
         // dd($results);
 
