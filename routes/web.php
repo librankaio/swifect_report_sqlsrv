@@ -38,6 +38,8 @@ Route::group(['middleware' => 'guest'], function () {
 
 });
 
+Route::group(['middleware' => ['auth']], function () {
+    
 //Pemasukkan
 Route::get('pemasukan', [PemasukkanController::class, 'index'])->name('pemasukan');
 Route::get('exportexcelpemasukan', [PemasukkanController::class, 'exportExcel'])->name('exportexcel');
@@ -79,8 +81,5 @@ Route::get('exportpdfmutasiwip', [MutasiWinProcessController::class, 'exportPdf'
 Route::get('mutasiloghist', [MutasiLogHistController::class, 'index'])->name('mutasiloghist');
 Route::get('exportexcelmutasiloghist', [MutasiLogHistController::class, 'exportExcel'])->name('exportexcel');
 Route::get('exportpdfmutasiloghist', [MutasiLogHistController::class, 'exportPdf'])->name('exportpdf');
-
-Route::group(['middleware' => ['auth']], function () {
-
     
 });
