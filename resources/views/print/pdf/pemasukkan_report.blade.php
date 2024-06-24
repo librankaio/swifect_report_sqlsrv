@@ -61,7 +61,7 @@ PERIODE {{ $datefrForm }} S.D {{ $datetoForm }}</h5>
                         }
                         else
                         {
-                                if ( $nomoraju == $item->nomoraju )
+                                if ( $nomoraju == $item->noaju )
                                 {
                                 ?>
                                     <td></td>
@@ -100,7 +100,7 @@ PERIODE {{ $datefrForm }} S.D {{ $datetoForm }}</h5>
                             <td><div style="width: 100px; word-wrap: break-word;" >Rp. {{ number_format($item->nilai_barang, 2, '.', ',') }}</div></td>
                         </tr>
                         <?php
-                        $nomoraju=$item->nomoraju;
+                        $nomoraju=$item->noaju;
                         ?>
                         @endforeach
     </table>
