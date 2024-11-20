@@ -182,6 +182,35 @@ class PengeluaranController extends Controller
         }
         return view('print.excel.pengeluaran_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
     }
+    public function exportExcelFull(Request $request)
+    {
+        if ($request->jenisdok != "All") {
+            $dtfr = $request->input('dtfrom');
+            $dtto = $request->input('dtto');
+            $jenisdok = $request->input('jenisdok');
+            $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
+            $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
+            $comp_name = session()->get('comp_name');
+
+            $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+
+            // $results = DB::select('EXEC rptTest ?,?,?',[$datefrForm,$datetoForm,$jenisdok]);
+
+            // dd($results);
+        } else if ($request->jenisdok == "All") {
+            $dtfr = $request->input('dtfrom');
+            $dtto = $request->input('dtto');
+            $jenisdok = $request->input('jenisdok');
+            $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
+            $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');            
+            $comp_name = session()->get('comp_name');
+
+            $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+
+            // dd($results);
+        }
+        return view('print.excel.pengeluaran_report_full', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+    }
 
     public function exportPdf(Request $request){
         if ($request->jenisdok != "All") {

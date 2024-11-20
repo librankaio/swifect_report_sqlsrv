@@ -67,6 +67,7 @@ class MutasiBrgJadiController extends Controller
         $results = DB::select('EXEC LapMutasiBarangJadiOCIOnline ?,?', [$datefrForm, $datetoForm]);
 
         // dd($results);
+        // dd($results);
 
         return view('print.excel.mutasibrgjadi_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
     }
