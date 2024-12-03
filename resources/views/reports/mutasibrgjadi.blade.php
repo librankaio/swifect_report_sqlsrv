@@ -100,89 +100,90 @@
           </div>
         </div>
       </div>
-      <table class="table table-striped table-hover" id="datatable" style="padding-right: 0.5em;">
-
-        <thead>
-          <tr align="center" class="" style="font-weight: bold;">
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">No</td>
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">Kode Barang</td>
-            <td align="center" class="border-bottom-0 border-end-0 border-2">Nama Barang</td>
-            <td align="center" class="border-bottom-0 border-end-0 border-2">Satuan</td>
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">Saldo Awal</td>
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">Pemasukkan</td>
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">Pengeluaran</td>
-            <td scope="col" class="border-bottom-0 border-end-0 border-2">Penyesuaian (Adjustment)</td>
-            <td scope="col" class="border-bottom-0 border-2">Stock Akhir</td>
-            <td align="center" class="border-bottom-0 border-end-0 border-2">Stock Opname</td>
-            <td align="center" class="border-bottom-0 border-end-0 border-2">Selisih</td>
-            <td align="center" class="border-bottom-0 border-2">Keterangan</td>
-          </tr>
-        </thead>
-        <tbody>
-          @php
-          $no=0;
-          $codemitem = "" @endphp
-          @isset($results)
-          {{-- @if(count($results) > 0) --}}
-          @if($no == 0)
-          @foreach ($results as $key => $item)
-          <tr>
-            {{-- @php $no++ @endphp
-            <th scope="row" class="border-2">{{ $no }}</th>
-            <td class="border-2">{{ $item->jenis_dokumen }}</td>
-            <td class="border-2">{{ $item->nomoraju }}</td>
-            <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
-            <td class="border-2">{{ $item->dpnomor }}</td>
-            <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
-            <td class="border-2">{{ $item->pemasok_pengirim }}</td> --}}
-            {{-- @if( $item->code_mitem == $codemitem)
-            <td class="border-2"></td>
-            <td class="border-2"></td>
-            @else --}}
-            @php $no++ @endphp
-            <th scope="row" class="border-2">{{ $no }}</th>
-            <td class="border-2">{{ $item->code_mitem }}</td>
-            <td class="border-2">{{ $item->name_mitem }}</td>
-            <td class="border-2">{{ $item->satuan }}</td>
-            @if ($item->stock_awal == 0)
-            <td class="border-2">--</td>
-            @else
-            <td class="border-2">{{ number_format($item->stock_awal, 2, '.', ',') }}</td>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover" id="datatable" style="padding-right: 0.5em;">
+          <thead>
+            <tr align="center" class="" style="font-weight: bold;">
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">No</td>
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">Kode Barang</td>
+              <td align="center" class="border-bottom-0 border-end-0 border-2">Nama Barang</td>
+              <td align="center" class="border-bottom-0 border-end-0 border-2">Satuan</td>
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">Saldo Awal</td>
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">Pemasukkan</td>
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">Pengeluaran</td>
+              <td scope="col" class="border-bottom-0 border-end-0 border-2">Penyesuaian (Adjustment)</td>
+              <td scope="col" class="border-bottom-0 border-2">Stock Akhir</td>
+              <td align="center" class="border-bottom-0 border-end-0 border-2">Stock Opname</td>
+              <td align="center" class="border-bottom-0 border-end-0 border-2">Selisih</td>
+              <td align="center" class="border-bottom-0 border-2">Keterangan</td>
+            </tr>
+          </thead>
+          <tbody>
+            @php
+            $no=0;
+            $codemitem = "" @endphp
+            @isset($results)
+            {{-- @if(count($results) > 0) --}}
+            @if($no == 0)
+            @foreach ($results as $key => $item)
+            <tr>
+              {{-- @php $no++ @endphp
+              <th scope="row" class="border-2">{{ $no }}</th>
+              <td class="border-2">{{ $item->jenis_dokumen }}</td>
+              <td class="border-2">{{ $item->nomoraju }}</td>
+              <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
+              <td class="border-2">{{ $item->dpnomor }}</td>
+              <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
+              <td class="border-2">{{ $item->pemasok_pengirim }}</td> --}}
+              {{-- @if( $item->code_mitem == $codemitem)
+              <td class="border-2"></td>
+              <td class="border-2"></td>
+              @else --}}
+              @php $no++ @endphp
+              <th scope="row" class="border-2">{{ $no }}</th>
+              <td class="border-2">{{ $item->code_mitem }}</td>
+              <td class="border-2">{{ $item->name_mitem }}</td>
+              <td class="border-2">{{ $item->satuan }}</td>
+              @if ($item->stock_awal == 0)
+              <td class="border-2">--</td>
+              @else
+              <td class="border-2">{{ number_format($item->stock_awal, 2, '.', ',') }}</td>
+              @endif
+              @if ($item->stock_in == 0)
+              <td class="border-2">--</td>
+              @else
+              <td class="border-2">{{ number_format($item->stock_in, 2, '.', ',') }}</td>
+              @endif
+              @if ($item->stock_out == 0)
+              <td class="border-2">--</td>
+              @else
+              <td class="border-2">{{ number_format($item->stock_out, 2, '.', ',') }}</td>
+              @endif
+              <td class="border-2">--</td>
+              @if ($item->stock_akhir == 0)
+              <td class="border-2">--</td>
+              @else
+              <td class="border-2">{{ number_format($item->stock_akhir, 2, '.', ',') }}</td>
+              @endif
+              {{-- @if ($item->stock_opname == 0)
+              <td class="border-2">--</td>
+              @else
+              <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
+              @endif --}}
+              <td class="border-2">--</td>
+              <td class="border-2">--</td>
+              <td class="border-2">Sesuai</td>
+              {{-- @endif --}}
+            </tr>
+            @endforeach
+            @elseif(count($results) == 0)
+            <td colspan="13" class="border-2">
+              <label for="noresult" class="form-label">NO DATA RESULTS...</label>
+            </td>
             @endif
-            @if ($item->stock_in == 0)
-            <td class="border-2">--</td>
-            @else
-            <td class="border-2">{{ number_format($item->stock_in, 2, '.', ',') }}</td>
-            @endif
-            @if ($item->stock_out == 0)
-            <td class="border-2">--</td>
-            @else
-            <td class="border-2">{{ number_format($item->stock_out, 2, '.', ',') }}</td>
-            @endif
-            <td class="border-2">--</td>
-            @if ($item->stock_akhir == 0)
-            <td class="border-2">--</td>
-            @else
-            <td class="border-2">{{ number_format($item->stock_akhir, 2, '.', ',') }}</td>
-            @endif
-            {{-- @if ($item->stock_opname == 0)
-            <td class="border-2">--</td>
-            @else
-            <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
-            @endif --}}
-            <td class="border-2">--</td>
-            <td class="border-2">--</td>
-            <td class="border-2">Sesuai</td>
-            {{-- @endif --}}
-          </tr>
-          @endforeach
-          @elseif(count($results) == 0)
-          <td colspan="13" class="border-2">
-            <label for="noresult" class="form-label">NO DATA RESULTS...</label>
-          </td>
-          @endif
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div class="row">
         <div class="col-md-6 py-3">
           {{-- <div class="d-flex justify-content-start">
@@ -210,7 +211,21 @@
     // $('#datatable').dataTable(
     //         {"ordering":false});
 
-    $('#datatable').DataTable();
+    // $('#datatable').DataTable();
+
+    $('#datatable').dataTable({
+      // "ordering":false,
+      responsive: true,
+       columnDefs: [
+        { width: '40%', targets: 1 },
+        { width: '40%', targets: 2 }
+      ]
+    });
+
+    $('#datatable').css({
+      'width': '100%',
+      'padding-right': '0px',
+    });
   });
 </script>
 @endsection

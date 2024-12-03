@@ -92,32 +92,33 @@
             </div>
           </div>
         </div>
-        <table class="table table-striped table-hover" id="datatable" style="padding-right: 0.5em;">
-          
-          <thead>
-            <tr align="center" class="" style="font-weight: bold;">
-              <td scope="col" class="border-bottom-0 border-end-0 border-2">Nama User</td>
-              <td scope="col" class="border-bottom-0 border-end-0 border-2">Jenis Transaksi</td>
-              <td align="center" class="border-bottom-0 border-end-0 border-2">Action</td>
-              <td align="center" class="border-bottom-0 border-end-0 border-2">Tanggal/Waktu</td>
-            </tr>
-          </thead>
-          <tbody>   
-            @isset($results)
-                @foreach ($results as $key => $item)  
-                <tr>
-                  <th scope="row" class="border-2">{{ $item->username }}</th>
-                  <td class="border-2">{{ $item->tbl }}</td>
-                  <td class="border-2">{{ $item->act }}</td>
-                  <td class="border-2">{{ $item->datein }}</td>
-                </tr>
-                @endforeach
-                {{-- <td colspan="13" class="border-2"> 
-                  <label for="noresult" class="form-label">NO DATA RESULTS...</label>
-                </td> --}}
-            @endisset
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover" id="datatable" style="padding-right: 0.5em;">
+            <thead>
+              <tr align="center" class="" style="font-weight: bold;">
+                <td scope="col" class="border-bottom-0 border-end-0 border-2">Nama User</td>
+                <td scope="col" class="border-bottom-0 border-end-0 border-2">Jenis Transaksi</td>
+                <td align="center" class="border-bottom-0 border-end-0 border-2">Action</td>
+                <td align="center" class="border-bottom-0 border-2">Tanggal/Waktu</td>
+              </tr>
+            </thead>
+            <tbody>   
+              @isset($results)
+                  @foreach ($results as $key => $item)  
+                  <tr>
+                    <th scope="row" class="border-2">{{ $item->username }}</th>
+                    <td class="border-2">{{ $item->tbl }}</td>
+                    <td class="border-2">{{ $item->act }}</td>
+                    <td class="border-2">{{ $item->datein }}</td>
+                  </tr>
+                  @endforeach
+                  {{-- <td colspan="13" class="border-2"> 
+                    <label for="noresult" class="form-label">NO DATA RESULTS...</label>
+                  </td> --}}
+              @endisset
+            </tbody>
+          </table>
+        </div>
         <div class="row">
           <div class="col-md-6 py-3">
             {{-- <div class="d-flex justify-content-start">
@@ -145,7 +146,21 @@
     // $('#datatable').dataTable(
     //         {"ordering":false});
 
-    $('#datatable').DataTable();
+    // $('#datatable').DataTable();
+
+    $('#datatable').dataTable({
+      // "ordering":false,
+      responsive: true,
+       columnDefs: [
+        { width: '40%', targets: 1 },
+        { width: '40%', targets: 2 }
+      ]
+    });
+
+    $('#datatable').css({
+      'width': '100%',
+      'padding-right': '0px',
+    });
   });
 </script>
 @endsection

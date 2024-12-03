@@ -142,18 +142,6 @@
       <div class="d-xl-none d-xxl-block">
         <table class="table table-striped table-hover px-2" id="datatable_xxl">
           <thead>
-            {{-- <tr align="center" class="" style="font-weight: bold;">
-              <td rowspan="2" class="align-middle border-2 border-bottom-0 border-end-0">No XL</td>
-              <td rowspan="2" class="align-middle border-2 border-bottom-0 border-end-0">Jenis Dokumen</td>
-              <td colspan="2" class="border-2 border-end-0">Dokumen Pabean</td>
-              <td colspan="2" class="border-2 border-end-0">Bukti Penerimaan Barang</td>
-              <td rowspan="2" class="align-middle border-bottom-0 border-2 border-end-0">Supplier</td>
-              <td rowspan="2" class="align-middle border-bottom-0 border-2 border-end-0">Kode Barang</td>
-              <td rowspan="2" class="align-middle border-bottom-0 border-2 border-end-0">Nama Barang</td>
-              <td rowspan="2" class="align-middle border-bottom-0 border-2 border-end-0">Satuan</td>
-              <td rowspan="2" class="align-middle border-bottom-0 border-2 border-end-0">Jumlah</td>
-              <td colspan="2" colspan="2" class="border-2">Nilai Barang</td>
-            </tr> --}}
             <tr align="center" class="" style="font-weight: bold;">
               <td scope="col" class="border-bottom-0 border-2">No</td>
               <td scope="col" class="border-bottom-0 border-2">Jenis Dokumen</td>
@@ -166,15 +154,6 @@
               <td scope="col" class="border-bottom-0 border-2">Jumlah</td>
               <td align="center" colspan="2" class="border-2">Nilai Barang</td>
             </tr>
-            {{-- <tr align="center" class="border-top-0 border-2">
-              <th scope="col" class="align-middle border-top-0 border-bottom-0 border-2 border-end-0">Nomor Pendaftaran
-              </th>
-              <th scope="col" class="align-middle border-top-0 border-bottom-0 border-2 border-end-0">Tanggal</th>
-              <th scope="col" class="border-top-0 border-bottom-0  border-2 border-end-0">Nomor</th>
-              <th scope="col" class="border-top-0 border-bottom-0  border-2 border-end-0">Tanggal</th>
-              <th scope="col" class="border-top-0 border-bottom-0  border-2 border-end-0">Rupiah</th>
-              <th scope="col" class="border-top-0 border-bottom-0  border-2">USD</th>
-            </tr> --}}
             <tr align="center" class="border-top-0 border-2">
               <th scope="col" class="border-top-0 border-bottom-0 border-2"></th>
               <th scope="col" class="border-top-0 border-bottom-0  border-2"></th>
