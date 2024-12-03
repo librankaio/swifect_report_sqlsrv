@@ -58,7 +58,7 @@
                                 Don't have an account?<a href="{{ 'register' }}">Register Here</a>
                             </div> --}}
                             <div class="login-form pt-2">
-                                <a href="https://swifect.com/" target="_blank">PT.Swifect Solusi Indonesia 2022 ©</a>
+                                <a href="https://swifect.com/" target="_blank">PT.Swifect Solusi Indonesia <script> document.write(new Date().getFullYear()) </script> ©</a>
                             </div>
                             <div class="login-form pt-2">
                                 Go to Swifect Repository page click <a href="https://repository.swiapps.com/" target="_blank">Here</a>
