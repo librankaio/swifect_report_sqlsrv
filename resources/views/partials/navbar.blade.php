@@ -35,7 +35,7 @@
   <a href="{{ 'mutasiwip' }}" class="btn_Nav {{ 'mutasiwip' == request()->path() ? 'btn_NavActive' : '' }}"><i
       class="fa-regular fa-note-sticky"></i><span>Mutasi Working Process</span></a>
   <a href="{{ 'mutasiloghist' }}" class="btn_Nav {{ 'mutasiloghist' == request()->path() ? 'btn_NavActive' : '' }}"><i
-      class="fa-regular fa-note-sticky"></i><span>Mutasi Log History</span></a>
+      class="fa-regular fa-note-sticky"></i><span>Log History</span></a>
   {{-- <a href="#" class="btn_Nav"><i class="fas fa-desktop"></i><span>Mutasi Bahan Baku</span></a>
   <a href="#" class="btn_Nav"><i class="fas fa-desktop"></i><span>Mutasi Barang Jadi</span></a>
   <a href="#" class="btn_Nav"><i class="fas fa-desktop"></i><span>Mutasi Mesin</span></a>
