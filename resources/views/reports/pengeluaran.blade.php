@@ -130,8 +130,10 @@
           </div>
         </div>
         {{-- RESPONSIVE TABLE IN GENERAL MONITOR >1400px --}}
-        <div class="d-xl-none d-xxl-block">
-          <table class="table table-striped table-hover px-2" id="datatable_xxl">
+        {{-- <div class="d-xl-none d-xxl-block"> --}}
+          <div class="table-responsive">
+          {{-- <table class="table table-striped table-hover px-2" id="datatable_xxl"> --}}
+          <table class="table table-striped table-hover px-2" id="datatable">
             <thead>
               <tr align="center" class="" style="font-weight: bold;">
                 <td scope="col" class="border-bottom-0 border-2">No</td>
@@ -234,7 +236,7 @@
         </div>
         {{-- END SPONSIVE TABLE IN GENERAL MONITOR --}}
         {{-- RESPONSIVE IN XL only show in >1200px --}}
-      <div class="d-none d-xl-block d-xxl-none">
+      {{-- <div class="d-none d-xl-block d-xxl-none">
           <table class="table table-striped table-hover datatable_xl" id="datatable_xl" style="max-width: 950px;">
             <thead style="font-size: 11px;">
               <tr align="center" class="" style="font-weight: bold;">
@@ -270,9 +272,7 @@
               $no=0;         
               $dpnomor = ""; @endphp        
               @isset($results)
-                  {{-- @if(count($results) > 0) --}}
                   @if($no == 0)
-
                     @foreach ($results as $key => $item)  
                     <tr>
                           @if( $item->dpnomor == $dpnomor)
@@ -325,7 +325,7 @@
               @endisset
             </tbody>
           </table>
-      </div>
+      </div> --}}
       {{-- END RESPONSIVE TABLE IN XL --}}
         <div class="row">
           <div class="col-md-6 py-3">
@@ -351,15 +351,28 @@
   <!-- END Form -->  
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#datatable_xl').dataTable(
-            {"ordering":false});
+    // $('#datatable_xl').dataTable(
+    //         {"ordering":false});
 
-    $('#datatable_xl').DataTable();
+    // $('#datatable_xl').DataTable();
 
-    $('#datatable_xxl').dataTable(
-            {"ordering":false});
+    // $('#datatable_xxl').dataTable(
+    //         {"ordering":false});
 
-    $('#datatable_xxl').DataTable();
+    // $('#datatable_xxl').DataTable();
+    $('#datatable').dataTable({
+      // "ordering":false,
+      responsive: true,
+      //  columnDefs: [
+      //   { width: '40%', targets: 1 },
+      //   { width: '40%', targets: 2 }
+      // ]
+    });
+
+    $('#datatable').css({
+      'width': '100%',
+      'padding-right': '0px',
+    });
   });
 </script>
 @endsection
