@@ -16,7 +16,7 @@ class MutasiLogHistController extends Controller
             // dd("memex");
             // $results = DB::table('userlog')->whereBetween('datein', [$datefrForm, $datetoForm])->where('comp_code', '=', $comp_code)->get();
             // $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and DATE(datein) >= '".$datefrForm."' and DATE(datein) <= '".$datetoForm."'");
-            $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and CONVERT(date,datein) >= '".$datefrForm."' and CONVERT(date,datein) <= '".$datetoForm."'");
+            $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and CONVERT(date,datein) >= '".$datefrForm."' and CONVERT(date,datein) <= '".$datetoForm."' ORDER BY datein DESC");
             // dd($results);
             
             return view('reports.mutasiloghist', [
@@ -34,7 +34,7 @@ class MutasiLogHistController extends Controller
         $comp_name = session()->get('comp_name');
 
         // $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and DATE(datein) >= '".$datefrForm."' and DATE(datein) <= '".$datetoForm."'");
-        $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and CONVERT(date,datein) >= '".$datefrForm."' and CONVERT(date,datein) <= '".$datetoForm."'");
+        $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and CONVERT(date,datein) >= '".$datefrForm."' and CONVERT(date,datein) <= '".$datetoForm."' ORDER BY datein DESC");
         
         return view('print.excel.mutasiloghist_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
     }
