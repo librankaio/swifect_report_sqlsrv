@@ -54,43 +54,55 @@
                 @if(count($results) > 0)
                 @php $no=0; @endphp
                 @foreach ($results as $key => $item)
-                <tr>
-                    @php
-                    $no++;
-                    @endphp
-                    <td scope="row" class="border-2">{{ $no }}</td>
+                    <tr>
+                    {{-- @php $no++ @endphp
+                    <th scope="row" class="border-2">{{ $no }}</th>
+                    <td class="border-2">{{ $item->jenis_dokumen }}</td>
+                    <td class="border-2">{{ $item->nomoraju }}</td>
+                    <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
+                    <td class="border-2">{{ $item->dpnomor }}</td>
+                    <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
+                    <td class="border-2">{{ $item->pemasok_pengirim }}</td> --}}
+                    {{-- @if( $item->code_mitem == $codemitem)
+                    <td class="border-2"></td>
+                    <td class="border-2"></td>
+                    @else --}}
+                    @php $no++ @endphp
+                    <th scope="row" class="border-2">{{ $no }}</th>
                     <td class="border-2">{{ $item->code_mitem }}</td>
                     <td class="border-2">{{ $item->name_mitem }}</td>
                     <td class="border-2">{{ $item->satuan }}</td>
                     @if ($item->stock_awal == 0)
-                    <td class="border-2">0</td>
+                    <td class="border-2">--</td>
                     @else
                     <td class="border-2">{{ number_format($item->stock_awal, 2, '.', ',') }}</td>
                     @endif
                     @if ($item->stock_in == 0)
-                    <td class="border-2">0</td>
+                    <td class="border-2">--</td>
                     @else
                     <td class="border-2">{{ number_format($item->stock_in, 2, '.', ',') }}</td>
                     @endif
                     @if ($item->stock_out == 0)
-                    <td class="border-2">0</td>
+                    <td class="border-2">--</td>
                     @else
                     <td class="border-2">{{ number_format($item->stock_out, 2, '.', ',') }}</td>
                     @endif
-                    <td class="border-2">0</td>
+                    <td class="border-2">--</td>
                     @if ($item->stock_akhir == 0)
-                    <td class="border-2">0</td>
+                    <td class="border-2">--</td>
                     @else
                     <td class="border-2">{{ number_format($item->stock_akhir, 2, '.', ',') }}</td>
                     @endif
-                    @if ($item->stock_opname == 0)
-                    <td class="border-2">0</td>
+                    {{-- @if ($item->stock_opname == 0)
+                    <td class="border-2">--</td>
                     @else
                     <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
-                    @endif
-                    <td class="border-2">0</td>
+                    @endif --}}
+                    <td class="border-2">--</td>
+                    <td class="border-2">--</td>
                     <td class="border-2">Sesuai</td>
-                </tr>
+                    {{-- @endif --}}
+                    </tr>
                 @endforeach
                 @elseif(count($results) == 0)
                 <td colspan="13" class="border-2">

@@ -165,45 +165,54 @@
             </thead>          
             <tbody align="center">
               @php 
-              $no=0;         
-              $dpnomor = "";
-              $bpbnomor = ""; @endphp     
+                $no = 0;         
+                $dpnomor = ""; 
+                $bpbnomor = "";
+              @endphp   
               @isset($results)
-                  {{-- @if(count($results) > 0) --}}
                   @if($no == 0)
-
                     @foreach ($results as $key => $item)  
                     <tr>
-                          @if( $item->dpnomor == $dpnomor && $item->bpbnomor == $bpbnomor)
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                          @elseif($item->dpnomor == $dpnomor && $item->bpbnomor != $bpbnomor)
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2"></td>
-                            <td class="border-2">{{ $item->bpbnomor }}</td>
-                            <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
-                            <td class="border-2">{{ $item->pembeli_penerima }}</td>
+                          @if($no == 0)
+                              @php $no++ @endphp
+                              <th scope="row" class="border-2">{{ $no }}</th>
+                              <td class="border-2">{{ $item->jenis_dokumen }}</td>
+                              <td class="border-2">{{ $item->dpnomor }}</td> 
+                              <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
+                              <td class="border-2">{{ $item->bpbnomor }}</td>
+                              <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
+                              <td class="border-2">{{ $item->pembeli_penerima }}</td>
                           @else
-                            @php $no++ @endphp
-                            <th scope="row" class="border-2">{{ $no }}</th>
-                            <td class="border-2">{{ $item->jenis_dokumen }}</td>
-                            <td class="border-2">{{ $item->dpnomor }}</td>                          
-                            <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
-                            <td class="border-2">{{ $item->bpbnomor }}</td>
-                            <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
-                            <td class="border-2">{{ $item->pembeli_penerima }}</td>
-                        @endif
+                            @if($item->dpnomor != $dpnomor && $item->bpbnomor != $bpbnomor)
+                              @php $no++ @endphp
+                              <th scope="row" class="border-2">{{ $no }}</th>
+                              <td class="border-2">{{ $item->jenis_dokumen }}</td>
+                              <td class="border-2">{{ $item->dpnomor }}</td>                                                 
+                              <td class="border-2">{{ date("d/m/Y", strtotime($item->dptanggal)) }}</td>
+                              <td class="border-2">{{ $item->bpbnomor }}</td>
+                              <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
+                              <td class="border-2">{{ $item->pembeli_penerima }}</td>
+                            @elseif($item->dpnomor == $dpnomor && $item->bpbnomor != $bpbnomor)
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2">{{ $item->bpbnomor }}</td>
+                              <td class="border-2">{{ date("d/m/Y", strtotime($item->bpbtanggal)) }}</td>
+                              <td class="border-2">{{ $item->pembeli_penerima }}</td>
+                            @elseif( $item->dpnomor == $dpnomor && $item->bpbnomor == $bpbnomor)
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>
+                              <td class="border-2"></td>        
+                            @endif
+                          @endif
                         <td class="border-2">{{ $item->kode_barang }}</td>
                         <td class="border-2">{{ $item->nama_barang }}</td>
                         <td class="border-2">{{ $item->sat }}</td>
-
                         @if ($item->jumlah == 0)
                         <td class="border-2">--</td>
                         @else
@@ -219,11 +228,11 @@
                         @else
                         <td class="border-2">{{ '$. '.number_format($item->nilai_barang_usd, 2, '.', ',') }}</td>
                         @endif
-                        </tr>
-                        @php 
-                        $dpnomor = $item->dpnomor;
-                        $bpbnomor = $item->bpbnomor;
-                        @endphp
+                    </tr>
+                    @php 
+                    $dpnomor = $item->dpnomor;
+                    $bpbnomor = $item->bpbnomor;
+                    @endphp
                     @endforeach
                   @elseif(count($results) == 0)
                     <td colspan="13" class="border-2"> 
@@ -361,7 +370,7 @@
 
     // $('#datatable_xxl').DataTable();
     $('#datatable').dataTable({
-      // "ordering":false,
+      "ordering":false,
       responsive: true,
       //  columnDefs: [
       //   { width: '40%', targets: 1 },

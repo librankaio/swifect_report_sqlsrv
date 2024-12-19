@@ -176,11 +176,11 @@
             @php
             $no=0;
             $dpnomor = ""; 
-            $bpbnomor = "";@endphp
+            $bpbnomor = "";
+            @endphp
             @isset($results)
             {{-- @if(count($results) > 0) --}}
             @if($no == 0)
-
             @foreach ($results as $key => $item)
             <tr>
               @if( $item->dpnomor == $dpnomor)
@@ -378,7 +378,7 @@
     // $('#datatable_xxl').DataTable();
 
     $('#datatable').dataTable({
-      // "ordering":false,
+      "ordering":false,
       responsive: true,
       //  columnDefs: [
       //   { width: '40%', targets: 1 },

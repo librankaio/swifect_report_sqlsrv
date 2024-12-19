@@ -42,6 +42,7 @@ class PengeluaranController extends Controller
                     // $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal',[$datefrForm,$datetoForm])->where('tstatus','=',1)->paginate(10);
                     $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
 
+                    // dd($results);
                     return view('reports.pengeluaran', [
                         'results' => $results
                     ]);
