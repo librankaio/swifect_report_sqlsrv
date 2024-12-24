@@ -64,6 +64,7 @@ class MutasiBrgJadiController extends Controller
         $comp_code = session()->get('comp_code');
         $comp_name = session()->get('comp_name');
 
+        // dd($request->all());
         $results = DB::select('EXEC LapMutasiBarangJadiOCIOnline ?,?', [$datefrForm, $datetoForm]);
 
         // dd($results);
