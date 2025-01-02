@@ -170,7 +170,11 @@
               @else
               <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
               @endif --}}
+              @if ($item->stock_opname == 0)
+              <td class="border-2">--</td>
+              @else
               <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
+              @endif
               <td class="border-2">--</td>
               <td class="border-2">Sesuai</td>
               {{-- @endif --}}
