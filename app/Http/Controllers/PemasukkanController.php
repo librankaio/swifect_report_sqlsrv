@@ -175,8 +175,8 @@ class PemasukkanController extends Controller
             $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
 
             // $results = DB::select('EXEC rptTest ?,?,?', [$datefrForm, $datetoForm, $jenisdok]);
-
-            // dd($results);
+            
+            // dd("ATAS : ",$results);
         } else if ($request->jenisdok == "All") {
             $dtfr = $request->input('dtfrom');
             $dtto = $request->input('dtto');

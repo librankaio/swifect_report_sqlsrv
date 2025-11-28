@@ -64,9 +64,11 @@ setlocale(LC_ALL, 'US');
                     <td align="center" scope="col" class="border-top-0 border-bottom-0  border-2">USD</td>
                 </tr>
                 @if (count($results) > 0)
-                    @php$no = 0;
+                    @php
+                        $no = 0;
                         $dpnomor = '';
-                    $bpbnomor = ''; @endphp
+                        $bpbnomor = '';
+                    @endphp
                     @foreach ($results as $key => $item)
                         <tr>
                             @if ($item->dpnomor == $dpnomor)
