@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
 //Pemasukkan
 Route::get('pemasukan', [PemasukkanController::class, 'index'])->name('pemasukan');
 Route::get('exportexcelpemasukan', [PemasukkanController::class, 'exportExcel'])->name('exportexcel');
+Route::get('exportexcelpemasukan2', [PemasukkanController::class, 'exportExcel2'])->name('exportexcel2');
 Route::get('exportexcelpemasukanfull', [PemasukkanController::class, 'exportExcelFull'])->name('exportexcelfull');
 // Route::get('exportpdfpemasukan', [PemasukkanController::class, 'exportPdf'])->name('exportpdf');
 Route::get('exportpdfpemasukan', [PemasukkanController::class, 'exportPdf'])->name('exportpdf');
@@ -50,6 +51,7 @@ Route::get('exportpdfpemasukan', [PemasukkanController::class, 'exportPdf'])->na
 //Pengeluaran
 Route::get('pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran');
 Route::get('exportexcelpengeluaran', [PengeluaranController::class, 'exportExcel'])->name('exportexcel');
+Route::get('exportexcelpengeluaran2', [PengeluaranController::class, 'exportExcel2'])->name('exportexcel2');
 Route::get('exportexcelpengeluaranfull', [PengeluaranController::class, 'exportExcelFull'])->name('exportexcelfull');
 Route::get('exportpdfpengeluaran', [PengeluaranController::class, 'exportPdf'])->name('exportpdf');
 // Route::get('searchp', [PengeluaranController::class, 'searchPengeluaran'])->name('searchpengeluaran');

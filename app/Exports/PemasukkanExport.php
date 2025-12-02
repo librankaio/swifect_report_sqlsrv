@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting
+class PemasukkanExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting
 {
     protected $results;
     protected $datefrForm;
@@ -35,20 +35,20 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
         $data = collect();
 
         // Add title rows
-        $data->push(['LAPORAN PERTANGGUNG JAWABAN PENGELUARAN DOKUMEN', '', '', '', '', '', '', '', '', '', '', '', '', '']);
-        $data->push([$this->comp_name, '', '', '', '', '', '', '', '', '', '', '', '', '']);
+        $data->push(['LAPORAN PERTANGGUNG JAWABAN PEMASUKAN DOKUMEN', '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
+        $data->push([$this->comp_name, '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
 
         if ($this->datefrForm && $this->datetoForm) {
             $datefr = date('d/m/Y', strtotime($this->datefrForm));
             $dateto = date('d/m/Y', strtotime($this->datetoForm));
-            $data->push(["PERIODE {$datefr} S.D {$dateto}", '', '', '', '', '', '', '', '', '', '', '', '', '']);
+            $data->push(["PERIODE {$datefr} S.D {$dateto}", '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
         }
 
         $data->push([]); // Empty row
 
         // Header row 1 (with colspans)
         $data->push([
-            'No', 'Jenis Dokumen', 'Nomor Aju', 'Dokumen Pabean', '', 'Pengeluaran Barang', '', 'Customer',
+            'No', 'Jenis Dokumen', 'Nomor Aju', 'Dokumen Pabean', '', 'Bukti Penerimaan Barang', '', 'Supplier',
             'Kode Barang', 'Nama Barang', 'Satuan', 'Jumlah', 'Nilai Barang', ''
         ]);
 
@@ -64,7 +64,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
             $bpbnomor = '';
 
             foreach ($this->results as $item) {
-                if ($item->dpnomor == $dpnomor && $item->bpbnomor == $bpbnomor) {
+                if ($item->dpnomor == $dpnomor) {
                     // For merged rows, empty first 7 columns
                     $data->push([
                         '', '', '', '', '', '', '', '',
@@ -100,7 +100,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         date('d/m/Y', strtotime($item->dptanggal)),
                         $item->bpbnomor,
                         date('d/m/Y', strtotime($item->bpbtanggal)),
-                        $item->pembeli_penerima,
+                        $item->pemasok_pengirim,
                         $item->kode_barang,
                         $item->nama_barang,
                         $item->sat,
@@ -133,9 +133,9 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
             'C' => 15,  // Nomor Aju
             'D' => 20,  // Nomor Pendaftaran
             'E' => 12,  // Tanggal Dokumen
-            'F' => 20,  // Nomor Pengeluaran
-            'G' => 12,  // Tanggal Pengeluaran
-            'H' => 25,  // Customer
+            'F' => 20,  // Nomor Bukti
+            'G' => 12,  // Tanggal Bukti
+            'H' => 25,  // Supplier
             'I' => 15,  // Kode Barang
             'J' => 50,  // Nama Barang
             'K' => 8,   // Satuan
@@ -172,7 +172,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
 
         // Merge header cells to match colspan
         $sheet->mergeCells("D{$tableHeader1}:E{$tableHeader1}"); // Dokumen Pabean
-        $sheet->mergeCells("F{$tableHeader1}:G{$tableHeader1}"); // Pengeluaran Barang
+        $sheet->mergeCells("F{$tableHeader1}:G{$tableHeader1}"); // Bukti Penerimaan Barang
         $sheet->mergeCells("M{$tableHeader1}:N{$tableHeader1}"); // Nilai Barang
 
         // Style table headers with background color
@@ -187,7 +187,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
         for ($row = $tableHeader2 + 1; $row <= $highestRow; $row++) {
             $sheet->getStyle("A{$row}:N{$row}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
             $sheet->getStyle("A{$row}:N{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // Enable text wrapping for Customer column (H) and Nama Barang column (J)
+            // Enable text wrapping for Supplier column (H) and Nama Barang column (J)
             $sheet->getStyle("H{$row}")->getAlignment()->setWrapText(true);
             $sheet->getStyle("J{$row}")->getAlignment()->setWrapText(true);
         }

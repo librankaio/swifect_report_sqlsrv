@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use App\Exports\PengeluaranExport;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PengeluaranController extends Controller
 {
@@ -236,5 +232,30 @@ class PengeluaranController extends Controller
             $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->get();
         }
         return view('print.pdf.pengeluaran_report', compact('results', 'datefrForm', 'datetoForm'));
+    }
+
+    public function exportExcel2(Request $request)
+    {
+        if ($request->jenisdok != "All") {
+            $dtfr = $request->input('dtfrom');
+            $dtto = $request->input('dtto');
+            $jenisdok = $request->input('jenisdok');
+            $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
+            $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
+            $comp_name = session()->get('comp_name');
+
+            $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+        } else if ($request->jenisdok == "All") {
+            $dtfr = $request->input('dtfrom');
+            $dtto = $request->input('dtto');
+            $jenisdok = $request->input('jenisdok');
+            $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
+            $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
+            $comp_name = session()->get('comp_name');
+
+            $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+        }
+
+        return Excel::download(new PengeluaranExport($results, $datefrForm, $datetoForm, $comp_name), 'Laporan_PengeluaranDokumen.xlsx');
     }
 }
