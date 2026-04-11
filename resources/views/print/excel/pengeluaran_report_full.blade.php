@@ -2,7 +2,15 @@
 $filename = 'Laporan_PengeluaranDokumen.xls';
 header("Content-Disposition: attachment; filename=\"$filename\"");
 header('Content-Type: application/vnd.ms-excel');
-setlocale(LC_ALL, 'US');
+
+// Ambil bahasa dari browser
+$locale = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en_US';
+
+// Ambil hanya bagian utama (contoh: en-US → en_US)
+$locale = str_replace('-', '_', explode(',', $locale)[0]);
+
+// Set locale
+setlocale(LC_ALL, $locale);
 ?>
 <html>
 
