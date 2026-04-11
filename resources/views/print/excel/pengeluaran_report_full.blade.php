@@ -99,7 +99,7 @@ setlocale(LC_ALL, $locale);
                             @if ($item->nilai_barang_usd == 0)
                                 <td class="border-2">0</td>
                             @else
-                                <td class="border-2">{{ number_format($item->nilai_barang_usd, 5, '.', ',') }}</td>
+                                <td class="border-2">{{ number_format($item->nilai_barang_usd, 2, '.', ',') }}</td>
                             @endif
                         </tr>
                         @php
