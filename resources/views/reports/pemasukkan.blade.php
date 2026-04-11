@@ -264,10 +264,10 @@
                                                     @php $nilai_brg_idr = $nilai_brg_idr + $item2->nilai_barang @endphp
                                                 @endif
                                             @endforeach
-                                            <input type="text" class="form-control" style="height: 30px; width: 150px;"
+                                            <input type="text" class="form-control" style="height: 30px; width: 160px;"
                                                 value="{{ number_format($nilai_brg_idr, 2, '.', ',') }}" readonly>
                                         @else
-                                            <input type="text" class="form-control" style="height: 30px; width: 150px;"
+                                            <input type="text" class="form-control" style="height: 30px; width: 160px;"
                                                 value="0" readonly>
                                         @endif
                                     </div>
@@ -282,10 +282,10 @@
                                                     @php $nilai_brg_usd = $nilai_brg_usd + $item3->nilai_barang_usd @endphp
                                                 @endif
                                             @endforeach
-                                            <input type="text" class="form-control" style="height: 30px; width: 150px;"
+                                            <input type="text" class="form-control" style="height: 30px; width: 130px;"
                                                 value="{{ number_format($nilai_brg_usd, 2, '.', ',') }}" readonly>
                                         @else
-                                            <input type="text" class="form-control" style="height: 30px; width: 150px;"
+                                            <input type="text" class="form-control" style="height: 30px; width: 130px;"
                                                 value="0" readonly>
                                         @endif
                                     </div>
