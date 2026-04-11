@@ -241,7 +241,7 @@
                                                 <td class="border-2">--</td>
                                             @else
                                                 <td class="border-2">
-                                                    {{ '$. ' . number_format($item->nilai_barang_usd, 5, '.', ',') }}</td>
+                                                    {{ '$. ' . number_format($item->nilai_barang_usd, 2, '.', ',') }}</td>
                                             @endif
                                         </tr>
                                         @php
