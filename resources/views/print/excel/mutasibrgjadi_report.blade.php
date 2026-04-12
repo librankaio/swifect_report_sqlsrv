@@ -75,28 +75,28 @@ setlocale(LC_ALL, 'US');
                             @if ($item->stock_awal == 0)
                                 <td class="border-2">0</td>
                             @else
-                                <td class="border-2">{{ number_format($item->stock_awal, 2, '.', ',') }}</td>
+                                <td class="border-2">{{ number_format($item->stock_awal, 5, '.', ',') }}</td>
                             @endif
                             @if ($item->stock_in == 0)
                                 <td class="border-2">0</td>
                             @else
-                                <td class="border-2">{{ number_format($item->stock_in, 2, '.', ',') }}</td>
+                                <td class="border-2">{{ number_format($item->stock_in, 5, '.', ',') }}</td>
                             @endif
                             @if ($item->stock_out == 0)
                                 <td class="border-2">0</td>
                             @else
-                                <td class="border-2">{{ number_format($item->stock_out, 2, '.', ',') }}</td>
+                                <td class="border-2">{{ number_format($item->stock_out, 5, '.', ',') }}</td>
                             @endif
                             <td class="border-2">0</td>
                             @if ($item->stock_akhir == 0)
                                 <td class="border-2">0</td>
                             @else
-                                <td class="border-2">{{ number_format($item->stock_akhir, 2, '.', ',') }}</td>
+                                <td class="border-2">{{ number_format($item->stock_akhir, 5, '.', ',') }}</td>
                             @endif
                             {{-- @if ($item->stock_opname == 0)
                     <td class="border-2">--</td>
                     @else
-                    <td class="border-2">{{ number_format($item->stock_opname, 2, '.', ',') }}</td>
+                    <td class="border-2">{{ number_format($item->stock_opname, 5, '.', ',') }}</td>
                     @endif --}}
                             <td class="border-2">0</td>
                             <td class="border-2">0</td>

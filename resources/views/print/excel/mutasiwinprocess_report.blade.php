@@ -1,8 +1,8 @@
-<?php  
-  $filename = "Mutasi_WorkInProcess.xls";
-  header("Content-Disposition: attachment; filename=\"$filename\"");
-  header("Content-Type: application/vnd.ms-excel");
-  setlocale(LC_ALL,"US");
+<?php
+$filename = 'Mutasi_WorkInProcess.xls';
+header("Content-Disposition: attachment; filename=\"$filename\"");
+header('Content-Type: application/vnd.ms-excel');
+setlocale(LC_ALL, 'US');
 ?>
 <html>
 
@@ -49,25 +49,25 @@
                     <td align="center" scope="col" class="border-top-0 border-bottom-0  border-2">USD</td>
                     <td align="center" scope="col" class="border-top-0 border-bottom-0  border-2">Rupiah</td>
                 </tr> --}}
-                @if(count($results) > 0)
-                @php $no=0; @endphp
-                @foreach ($results as $key => $item)
-                <tr>
-                    @php
-                    $no++;
-                    @endphp
-                    <td scope="row" class="border-2">{{ $no }}</td>
-                    <td class="border-2">{{ $item->code_mitem }}</td>
-                    <td class="border-2">{{ $item->name_mitem }}</td>
-                    <td class="border-2">{{ $item->satuan }}</td>
-                    <td class="border-2">{{ number_format($item->stock_akhir, 2, '.', ',') }}</td>
-                    <td class="border-2">Sesuai</td>
-                </tr>
-                @endforeach
+                @if (count($results) > 0)
+                    @php $no=0; @endphp
+                    @foreach ($results as $key => $item)
+                        <tr>
+                            @php
+                                $no++;
+                            @endphp
+                            <td scope="row" class="border-2">{{ $no }}</td>
+                            <td class="border-2">{{ $item->code_mitem }}</td>
+                            <td class="border-2">{{ $item->name_mitem }}</td>
+                            <td class="border-2">{{ $item->satuan }}</td>
+                            <td class="border-2">{{ number_format($item->stock_akhir, 5, '.', ',') }}</td>
+                            <td class="border-2">Sesuai</td>
+                        </tr>
+                    @endforeach
                 @elseif(count($results) == 0)
-                <td colspan="13" class="border-2">
-                    <label for="noresult" class="form-label">NO DATA RESULTS...</label>
-                </td>
+                    <td colspan="13" class="border-2">
+                        <label for="noresult" class="form-label">NO DATA RESULTS...</label>
+                    </td>
                 @endif
             </table>
         </center>
