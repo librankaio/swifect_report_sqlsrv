@@ -94,7 +94,7 @@ setlocale(LC_ALL, 'US');
                             @php $no++ @endphp
                             <td class="border-2">{{ $no }}</td>
                             <td class="border-2">{{ $item->jenis_dokumen }}</td>
-                            <td class="border-2">{{ $item->nomoraju }}</td>
+                            <td class="border-2 num" style="mso-number-format:'@';">{{ $item->nomoraju }}</td>
                             <td class="border-2 num" style="mso-number-format:'@';">{{ $item->dpnomor }}</td>
                             <td class="border-2">{{ date('d/m/Y', strtotime($item->dptanggal)) }}</td>
                             <td class="border-2">{{ $item->bpbnomor }}</td>

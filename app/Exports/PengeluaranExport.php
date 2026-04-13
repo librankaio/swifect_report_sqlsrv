@@ -96,7 +96,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         $no,
                         $item->jenis_dokumen,
                         $item->nomoraju,
-                        $item->dpnomor,
+                        (string) $item->dpnomor,
                         date('d/m/Y', strtotime($item->dptanggal)),
                         $item->bpbnomor,
                         date('d/m/Y', strtotime($item->bpbtanggal)),
@@ -130,7 +130,7 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
         return [
             'A' => 5,   // No
             'B' => 15,  // Jenis Dokumen
-            'C' => 15,  // Nomor Aju
+            'C' => 30,  // Nomor Aju
             'D' => 20,  // Nomor Pendaftaran
             'E' => 12,  // Tanggal Dokumen
             'F' => 20,  // Nomor Pengeluaran
