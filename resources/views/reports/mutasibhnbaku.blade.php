@@ -1,4 +1,11 @@
 @extends('layouts.main')
+@section('topscript')
+    <style type="text/css">
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+@stop
 @section('content')
     <!-- Form -->
     <form action="/mutasibhnbaku" method="get" class="container-fluid px-5 py-2" id="myform">
