@@ -95,13 +95,14 @@
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6 text-end">
-                                    {{-- <label for="searchtext" class="form-label py-2">Search :</label> --}}
+                                    <label for="searchtext" class="form-label py-2">Search :</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            {{-- <input type="text" class="form-control" id="searchtext" aria-describedby="searchtext" name="searchtext"
-              placeholder="Search Nomor Pendaftaran..."> --}}
+                            <input type="text" class="form-control" id="searchtext" aria-describedby="searchtext"
+                                name="searchtext" value="{{ request('searchtext') }}"
+                                placeholder="Search Kode/Nama Barang...">
                         </div>
                     </div>
                 </div>

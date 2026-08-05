@@ -38,14 +38,18 @@ class MutasiBhnBakuController extends Controller
                     'results' => $results
                 ]);
             } else if ($request->searchtext != null) {
-                $searchtext = $request->searchtext;
+                $searchtext = trim($request->searchtext);
                 $dtfr = $request->input('dtfrom');
                 $dtto = $request->input('dtto');
-                $jenisdok = $request->input('jenisdok');
                 $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                 $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                $results = DB::table('pemasukan_dokumen')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('tstatus', '=', 1)->where('jenis_dokumen', '=', $jenisdok)->where('dpnomor', '=', $searchtext)->paginate(10);
+                $rows = DB::select('EXEC LapMutasiBahanBakuOCIOnline ?,?', [$datefrForm, $datetoForm]);
+
+                $results = array_values(array_filter($rows, function ($row) use ($searchtext) {
+                    return stripos($row->code_mitem ?? '', $searchtext) !== false
+                        || stripos($row->name_mitem ?? '', $searchtext) !== false;
+                }));
 
                 return view('reports.mutasibhnbaku', [
                     'results' => $results
