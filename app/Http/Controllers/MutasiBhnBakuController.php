@@ -44,12 +44,7 @@ class MutasiBhnBakuController extends Controller
                 $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                 $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                $rows = DB::select('EXEC LapMutasiBahanBakuOCIOnline ?,?', [$datefrForm, $datetoForm]);
-
-                $results = array_values(array_filter($rows, function ($row) use ($searchtext) {
-                    return stripos($row->code_mitem ?? '', $searchtext) !== false
-                        || stripos($row->name_mitem ?? '', $searchtext) !== false;
-                }));
+                $results = $this->fetchResults($datefrForm, $datetoForm, $searchtext);
 
                 return view('reports.mutasibhnbaku', [
                     'results' => $results
@@ -57,6 +52,22 @@ class MutasiBhnBakuController extends Controller
             }
         }
         return view('reports.mutasibhnbaku');
+    }
+
+    private function fetchResults($datefrForm, $datetoForm, $searchtext = null)
+    {
+        $rows = DB::select('EXEC LapMutasiBahanBakuOCIOnline ?,?', [$datefrForm, $datetoForm]);
+
+        $searchtext = trim((string) $searchtext);
+
+        if ($searchtext === '') {
+            return $rows;
+        }
+
+        return array_values(array_filter($rows, function ($row) use ($searchtext) {
+            return stripos($row->code_mitem ?? '', $searchtext) !== false
+                || stripos($row->name_mitem ?? '', $searchtext) !== false;
+        }));
     }
 
     public function exportExcel(Request $request)
@@ -68,7 +79,7 @@ class MutasiBhnBakuController extends Controller
         $comp_code = session()->get('comp_code');
         $comp_name = session()->get('comp_name');
 
-        $results = DB::select('EXEC LapMutasiBahanBakuOCIOnline ?,?', [$datefrForm, $datetoForm]);
+        $results = $this->fetchResults($datefrForm, $datetoForm, $request->searchtext);
 
         // dd($results);
 
@@ -83,7 +94,7 @@ class MutasiBhnBakuController extends Controller
         $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
         $compcode = session()->get('comp_code');
 
-        $results = DB::select('EXEC LapMutasiBahanBakuOCIOnline ?,?', [$datefrForm, $datetoForm]);
+        $results = $this->fetchResults($datefrForm, $datetoForm, $request->searchtext);
 
         // dd($results);
 
