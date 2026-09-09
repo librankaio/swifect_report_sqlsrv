@@ -26,7 +26,8 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+                    $results = $this->applySearch($query, $request->searchtext)->get();
 
                     return view('reports.pemasukkan', [
                         'results' => $results
@@ -38,7 +39,8 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+                    $results = $this->applySearch($query, $request->searchtext)->get();
                     return view('reports.pemasukkan', [
                         'results' => $results
                     ]);
@@ -52,7 +54,8 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->where('dpnomor', '=', $searchtext)->get();
+                    $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+                    $results = $this->applySearch($query, $searchtext)->get();
 
                     return view('reports.pemasukkan', [
                         'results' => $results
@@ -65,7 +68,8 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+                    $results = $this->applySearch($query, $searchtext)->get();
 
                     return view('reports.pemasukkan', [
                         'results' => $results
@@ -74,6 +78,63 @@ class PemasukkanController extends Controller
             }
         }
         return view('reports.pemasukkan');
+    }
+
+    private function applySearch($query, $searchtext)
+    {
+        $searchtext = trim((string) $searchtext);
+
+        if ($searchtext === '') {
+            return $query;
+        }
+
+        $columns = $this->searchableColumns($query->from);
+
+        if (empty($columns)) {
+            return $query;
+        }
+
+        // Netralkan wildcard LIKE supaya "100%" tidak cocok ke semua baris
+        $like = '%' . str_replace(['\\', '%', '_', '['], ['\\\\', '\\%', '\\_', '\\['], $searchtext) . '%';
+
+        $dateTypes = ['date', 'datetime', 'datetime2', 'smalldatetime', 'datetimeoffset'];
+
+        return $query->where(function ($q) use ($columns, $like, $dateTypes) {
+            foreach ($columns as $name => $type) {
+                $safe = str_replace(']', ']]', $name);
+
+                if (in_array($type, $dateTypes)) {
+                    $q->orWhereRaw("CONVERT(VARCHAR(10), [{$safe}], 103) LIKE ? ESCAPE '\\'", [$like]); // dd/mm/yyyy
+                    $q->orWhereRaw("CONVERT(VARCHAR(10), [{$safe}], 23) LIKE ? ESCAPE '\\'", [$like]);  // yyyy-mm-dd
+                } else {
+                    $q->orWhereRaw("CAST([{$safe}] AS NVARCHAR(200)) LIKE ? ESCAPE '\\'", [$like]);
+                }
+            }
+        });
+    }
+
+    private function searchableColumns($table)
+    {
+        static $cache = [];
+
+        if (!array_key_exists($table, $cache)) {
+            // Tipe yang tidak masuk akal / tidak aman untuk LIKE
+            $skipped = ['binary', 'varbinary', 'image', 'xml', 'geography', 'geometry', 'hierarchyid', 'timestamp', 'sql_variant'];
+
+            $columns = [];
+
+            foreach (DB::select('SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ?', [$table]) as $column) {
+                $type = strtolower($column->DATA_TYPE);
+
+                if (!in_array($type, $skipped)) {
+                    $columns[$column->COLUMN_NAME] = $type;
+                }
+            }
+
+            $cache[$table] = $columns;
+        }
+
+        return $cache[$table];
     }
 
     public function searchPemasukan(Request $request)
@@ -150,7 +211,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
 
         } else if ($request->jenisdok == "All") {
             $dtfr = $request->input('dtfrom');
@@ -160,7 +222,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
         }
         return view('print.excel.pemasukkan_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
     }
@@ -175,7 +238,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
 
         } else if ($request->jenisdok == "All") {
             $dtfr = $request->input('dtfrom');
@@ -185,7 +249,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
         }
         return view('print.excel.pemasukkan_report_full', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
     }
@@ -198,7 +263,8 @@ class PemasukkanController extends Controller
             $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok);
+            $results = $this->applySearch($query, $request->searchtext)->get();
         } else if ($request->jenisdok == "All") {
             $dtfr = $request->input('dtfrom');
             $dtto = $request->input('dtto');
@@ -206,7 +272,8 @@ class PemasukkanController extends Controller
             $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm]);
+            $results = $this->applySearch($query, $request->searchtext)->get();
         }
         return view('print.pdf.pemasukkan_report', compact('results', 'datefrForm', 'datetoForm'));
     }
@@ -221,7 +288,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dpnomor','asc')->orderBy('dptanggal','asc')->orderBy('bpbnomor','asc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dpnomor','asc')->orderBy('dptanggal','asc')->orderBy('bpbnomor','asc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
         } else if ($request->jenisdok == "All") {
             $dtfr = $request->input('dtfrom');
             $dtto = $request->input('dtto');
@@ -230,7 +298,8 @@ class PemasukkanController extends Controller
             $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
             $comp_name = session()->get('comp_name');
 
-            $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dpnomor','asc')->orderBy('dptanggal','asc')->orderBy('bpbnomor','asc')->get();
+            $query = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dpnomor','asc')->orderBy('dptanggal','asc')->orderBy('bpbnomor','asc');
+            $results = $this->applySearch($query, $request->searchtext)->get();
         }
 
         return Excel::download(new PemasukkanExport($results, $datefrForm, $datetoForm, $comp_name), 'Laporan_PemasukanDokumen.xlsx');
