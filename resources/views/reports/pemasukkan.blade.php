@@ -349,18 +349,22 @@
                 <div class="row">
                     <div class="col-md-6 py-3">
                         <div class="d-flex justify-content-start">
-                            {{-- Showing
-            {{ $results->firstItem() }}
-            to
-            {{ $results->lastItem() }}
-            of
-            {{ $results->total() }}
-            Entries --}}
+                            @isset($results)
+                                Showing
+                                {{ $results->firstItem() }}
+                                to
+                                {{ $results->lastItem() }}
+                                of
+                                {{ $results->total() }}
+                                Entries
+                            @endisset
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-end">
-                            {{-- {{ $results->appends(request()->input())->links() }} --}}
+                            @isset($results)
+                                {{ $results->appends(request()->input())->links() }}
+                            @endisset
                         </div>
                     </div>
                     {{-- @endisset --}}
@@ -380,19 +384,19 @@
 
             // $('#datatable_xxl').DataTable();
 
-            $('#datatable').dataTable({
-                "ordering": false,
-                responsive: true,
-                //  columnDefs: [
-                //   { width: '40%', targets: 1 },
-                //   { width: '40%', targets: 2 }
-                // ]
-            });
+            // $('#datatable').dataTable({
+            // "ordering": false,
+            // responsive: true,
+            //  columnDefs: [
+            //   { width: '40%', targets: 1 },
+            //   { width: '40%', targets: 2 }
+            // ]
+            // });
 
-            $('#datatable').css({
-                'width': '100%',
-                'padding-right': '0px',
-            });
+            // $('#datatable').css({
+            //     'width': '100%',
+            //     'padding-right': '0px',
+            // });
         });
     </script>
 @endsection

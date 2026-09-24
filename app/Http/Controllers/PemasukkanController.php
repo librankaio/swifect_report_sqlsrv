@@ -15,6 +15,8 @@ use PDF;
 
 class PemasukkanController extends Controller
 {
+    private const PER_PAGE = 50;
+
     public function index(Request $request)
     {
         if (isset($request->jenisdok)) {
@@ -26,7 +28,7 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     return view('reports.pemasukkan', [
                         'results' => $results
@@ -38,7 +40,7 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
                     return view('reports.pemasukkan', [
                         'results' => $results
                     ]);
@@ -52,7 +54,7 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->where('dpnomor', '=', $searchtext)->get();
+                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->where('dpnomor', '=', $searchtext)->paginate(self::PER_PAGE);
 
                     return view('reports.pemasukkan', [
                         'results' => $results
@@ -65,7 +67,7 @@ class PemasukkanController extends Controller
                     $datefrForm = Carbon::createFromFormat('d/m/Y', $dtfr)->format('Y-m-d');
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
-                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     return view('reports.pemasukkan', [
                         'results' => $results

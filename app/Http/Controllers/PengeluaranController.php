@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PengeluaranController extends Controller
 {
+    private const PER_PAGE = 50;
+
     //
     public function index(Request $request)
     {
@@ -23,7 +25,7 @@ class PengeluaranController extends Controller
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
                     // $results = DB::table('pengeluaran_dokumen')->whereBetween('dptanggal',[$datefrForm,$datetoForm])->where('tstatus','=',1)->where('jenis_dokumen','=',$jenisdok)->get();
-                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     return view('reports.pengeluaran', [
                         'results' => $results
@@ -36,7 +38,7 @@ class PengeluaranController extends Controller
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
                     // $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal',[$datefrForm,$datetoForm])->where('tstatus','=',1)->paginate(10);
-                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     // dd($results);
                     return view('reports.pengeluaran', [
@@ -53,7 +55,7 @@ class PengeluaranController extends Controller
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
                     // $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal',[$datefrForm,$datetoForm])->where('tstatus','=',1)->where('jenis_dokumen','=',$jenisdok)->where('dpnomor','=',$searchtext)->paginate(10);
-                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('jenis_dokumen', '=', $jenisdok)->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     return view('reports.pengeluaran', [
                         'results' => $results
@@ -67,7 +69,7 @@ class PengeluaranController extends Controller
                     $datetoForm = Carbon::createFromFormat('d/m/Y', $dtto)->format('Y-m-d');
 
                     // $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal',[$datefrForm,$datetoForm])->where('tstatus','=',1)->where('dpnomor','=',$searchtext)->paginate(10);
-                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
+                    $results = DB::table('vwLapPengeluaranPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->where('dpnomor', '=', $searchtext)->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->paginate(self::PER_PAGE);
 
                     return view('reports.pengeluaran', [
                         'results' => $results
