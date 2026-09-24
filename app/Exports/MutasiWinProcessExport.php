@@ -5,6 +5,7 @@ namespace App\Exports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -15,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class MutasiWinProcessExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting
+class MutasiWinProcessExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting, WithStrictNullComparison
 {
     protected $results;
     protected $datefrForm;
@@ -61,7 +62,7 @@ class MutasiWinProcessExport implements FromCollection, WithHeadings, ShouldAuto
                     $item->code_mitem,
                     $item->name_mitem,
                     $item->satuan,
-                    $item->stock_akhir == 0 ? '--' : (float)$item->stock_akhir,
+                    (float) $item->stock_akhir,
                     'Sesuai'
                 ]);
             }
@@ -142,7 +143,7 @@ class MutasiWinProcessExport implements FromCollection, WithHeadings, ShouldAuto
     public function columnFormats(): array
     {
         return [
-            'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Jumlah
+            'E' => '#,##0.00000;-#,##0.00000;0', // Jumlah
         ];
     }
 }

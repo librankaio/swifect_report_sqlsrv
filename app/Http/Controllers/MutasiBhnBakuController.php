@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiBhnBakuExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiBhnBakuController extends Controller
 {
@@ -83,7 +85,10 @@ class MutasiBhnBakuController extends Controller
 
         // dd($results);
 
-        return view('print.excel.mutasibhnbaku_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiBhnBakuExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiBahanBaku.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)

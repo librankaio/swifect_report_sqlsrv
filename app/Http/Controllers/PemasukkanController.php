@@ -187,7 +187,10 @@ class PemasukkanController extends Controller
 
             $results = DB::table('vwLapPemasukanPerDokumenONLINE')->whereBetween('dptanggal', [$datefrForm, $datetoForm])->orderBy('dptanggal','desc')->orderBy('dpnomor','desc')->get();
         }
-        return view('print.excel.pemasukkan_report_full', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new PemasukkanExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_PemasukanDokumen_Detail.xlsx'
+        );
     }
 
     public function exportPdf(Request $request){

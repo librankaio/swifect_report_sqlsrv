@@ -5,6 +5,7 @@ namespace App\Exports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -15,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting
+class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting, WithStrictNullComparison
 {
     protected $results;
     protected $datefrForm;
@@ -71,9 +72,9 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         $item->kode_barang,
                         $item->nama_barang,
                         $item->sat,
-                        $item->jumlah == 0 ? '0' : (float)$item->jumlah,
-                        $item->nilai_barang == 0 ? '0' : (float)$item->nilai_barang,
-                        $item->nilai_barang_usd == 0 ? '0' : (float)$item->nilai_barang_usd
+                        (float) $item->jumlah,
+                        (float) $item->nilai_barang,
+                        (float) $item->nilai_barang_usd
                     ]);
                 } elseif ($item->dpnomor == $dpnomor && $item->bpbnomor != $bpbnomor) {
                     // Special case for different bpbnomor but same dpnomor
@@ -82,9 +83,9 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         $item->kode_barang,
                         $item->nama_barang,
                         $item->sat,
-                        $item->jumlah == 0 ? '0' : (float)$item->jumlah,
-                        $item->nilai_barang == 0 ? '0' : (float)$item->nilai_barang,
-                        $item->nilai_barang_usd == 0 ? '0' : (float)$item->nilai_barang_usd
+                        (float) $item->jumlah,
+                        (float) $item->nilai_barang,
+                        (float) $item->nilai_barang_usd
                     ]);
                 } else {
                     // New document number
@@ -104,9 +105,9 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
                         $item->kode_barang,
                         $item->nama_barang,
                         $item->sat,
-                        $item->jumlah == 0 ? '0' : (float)$item->jumlah,
-                        $item->nilai_barang == 0 ? '0' : (float)$item->nilai_barang,
-                        $item->nilai_barang_usd == 0 ? '0' : (float)$item->nilai_barang_usd
+                        (float) $item->jumlah,
+                        (float) $item->nilai_barang,
+                        (float) $item->nilai_barang_usd
                     ]);
                 }
             }
@@ -202,9 +203,9 @@ class PengeluaranExport implements FromCollection, WithHeadings, ShouldAutoSize,
     public function columnFormats(): array
     {
         return [
-            'L' => NumberFormat::FORMAT_NUMBER_00, // Jumlah column - 2 decimal places
-            'M' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Nilai Rp column - with commas
-            'N' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Nilai USD column - with commas
+            'L' => '#,##0.00;-#,##0.00;0', // Jumlah column - 2 decimal places
+            'M' => '#,##0.00000;-#,##0.00000;0', // Nilai Rp column - with commas
+            'N' => '#,##0.00000;-#,##0.00000;0', // Nilai USD column - with commas
         ];
     }
 }

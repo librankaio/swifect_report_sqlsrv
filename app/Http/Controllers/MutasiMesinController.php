@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiMesinExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiMesinController extends Controller
 {
@@ -66,7 +68,10 @@ class MutasiMesinController extends Controller
 
         // dd($results);
 
-        return view('print.excel.mutasimesin_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiMesinExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiMesin.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)

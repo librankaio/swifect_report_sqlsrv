@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiWinProcessExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiWinProcessController extends Controller
 {
@@ -66,7 +68,10 @@ class MutasiWinProcessController extends Controller
 
         // dd($results);
 
-        return view('print.excel.mutasiwinprocess_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiWinProcessExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiWIP.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)

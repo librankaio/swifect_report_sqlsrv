@@ -5,6 +5,7 @@ namespace App\Exports;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -15,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class MutasiMesinExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting
+class MutasiMesinExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnWidths, WithColumnFormatting, WithStrictNullComparison
 {
     protected $results;
     protected $datefrForm;
@@ -61,12 +62,12 @@ class MutasiMesinExport implements FromCollection, WithHeadings, ShouldAutoSize,
                     $item->code_mitem,
                     $item->name_mitem,
                     $item->satuan,
-                    $item->stock_awal == 0 ? '--' : (float)$item->stock_awal,
-                    $item->stock_in == 0 ? '--' : (float)$item->stock_in,
-                    $item->stock_out == 0 ? '--' : (float)$item->stock_out,
+                    (float) $item->stock_awal,
+                    (float) $item->stock_in,
+                    (float) $item->stock_out,
                     0, // Penyesuaian
-                    $item->stock_akhir == 0 ? '--' : (float)$item->stock_akhir,
-                    $item->stock_opname == 0 ? '--' : (float)$item->stock_opname,
+                    (float) $item->stock_akhir,
+                    (float) $item->stock_opname,
                     0, // Selisih
                     'Sesuai' // Keterangan
                 ]);
@@ -154,13 +155,13 @@ class MutasiMesinExport implements FromCollection, WithHeadings, ShouldAutoSize,
     public function columnFormats(): array
     {
         return [
-            'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Saldo Awal
-            'F' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Pemasukkan
-            'G' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Pengeluaran
-            'H' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Penyesuaian
-            'I' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Stock Akhir
-            'J' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Stock Opname
-            'K' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1, // Selisih
+            'E' => '#,##0.00000;-#,##0.00000;0', // Saldo Awal
+            'F' => '#,##0.00000;-#,##0.00000;0', // Pemasukkan
+            'G' => '#,##0.00000;-#,##0.00000;0', // Pengeluaran
+            'H' => '#,##0.00000;-#,##0.00000;0', // Penyesuaian
+            'I' => '#,##0.00000;-#,##0.00000;0', // Stock Akhir
+            'J' => '#,##0.00000;-#,##0.00000;0', // Stock Opname
+            'K' => '#,##0.00000;-#,##0.00000;0', // Selisih
         ];
     }
 }

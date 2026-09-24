@@ -206,7 +206,10 @@ class PengeluaranController extends Controller
 
             // dd($results);
         }
-        return view('print.excel.pengeluaran_report_full', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new PengeluaranExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_PengeluaranDokumen_Detail.xlsx'
+        );
     }
 
     public function exportPdf(Request $request){

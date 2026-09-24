@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiScrapExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiScrapController extends Controller
 {
@@ -66,7 +68,10 @@ class MutasiScrapController extends Controller
 
         // dd($results);
 
-        return view('print.excel.mutasiscrap_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiScrapExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiScrap.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)

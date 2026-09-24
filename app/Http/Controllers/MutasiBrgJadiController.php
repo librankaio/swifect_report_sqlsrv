@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiBrgJadiExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiBrgJadiController extends Controller
 {
@@ -70,7 +72,10 @@ class MutasiBrgJadiController extends Controller
         // dd($results);
         // dd($results);
 
-        return view('print.excel.mutasibrgjadi_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiBrgJadiExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiBarangJadi.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)

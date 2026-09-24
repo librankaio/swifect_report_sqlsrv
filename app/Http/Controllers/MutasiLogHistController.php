@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MutasiLogHistExport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MutasiLogHistController extends Controller
 {
@@ -36,7 +38,10 @@ class MutasiLogHistController extends Controller
         // $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and DATE(datein) >= '".$datefrForm."' and DATE(datein) <= '".$datetoForm."'");
         $results = DB::select("SELECT * FROM userlog WHERE comp_code = '$comp_code' and CONVERT(date,datein) >= '".$datefrForm."' and CONVERT(date,datein) <= '".$datetoForm."' ORDER BY datein DESC");
         
-        return view('print.excel.mutasiloghist_report', compact('results', 'datefrForm', 'datetoForm', 'comp_name'));
+        return Excel::download(
+            new MutasiLogHistExport($results, $datefrForm, $datetoForm, $comp_name),
+            'Laporan_MutasiLogHistory.xlsx'
+        );
     }
 
     public function exportPdf(Request $request)
